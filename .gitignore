@@ -133,3 +133,6 @@ dmypy.json
 
 # Mounts
 data/
+
+# Secrets
+secrets.py

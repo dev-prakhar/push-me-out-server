@@ -17,6 +17,9 @@ collectstatic:
 start_app:
 	docker exec -it pmo_server python manage.py startapp $(APP_NAME)
 
+tests:
+	docker exec -it pmo_server python manage.py test
+
 # Docker commands
 setup:
 	make collectstatic
