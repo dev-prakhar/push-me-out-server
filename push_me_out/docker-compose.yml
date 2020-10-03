@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+  db:
+    image: postgres
+    restart: on-failure
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    container_name: pmo_db
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+  api:
+    build: .
+    command: sh -c ./start_server.sh
+    volumes:
+      - .:/code
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+    container_name: pmo_server
