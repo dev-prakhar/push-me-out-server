@@ -35,7 +35,7 @@ logs:
 	docker logs -f --tail 1000 pmo_server
 
 pip_install:
-	docker exec -it bingetalk_backend pip install -r requirements.txt
+	docker exec -it pmo_server pip install -r requirements.txt
 
 # Misc Services Commands
 db_shell:
