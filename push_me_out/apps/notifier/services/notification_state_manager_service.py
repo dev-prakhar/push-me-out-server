@@ -10,8 +10,9 @@ class NotificationStateManagerService:
 
     def insert(self):
         subscriber_id = self.data.get('subscriber_id')
+        notification_type_id = self.data.get('notification_type_id')
         with transaction.atomic():
-            state_manager = NotificationStateManager.objects.create(subscriber_id=subscriber_id)
+            state_manager = NotificationStateManager.objects.create(subscriber_id=subscriber_id, notification_type_id=notification_type_id)
             transaction.on_commit(lambda: send_notification.delay(state_manager.id))
 
         return state_manager

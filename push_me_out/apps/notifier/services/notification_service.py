@@ -11,8 +11,7 @@ class NotificationService:
     def __init__(self, subscriber):
         self.subscriber = subscriber
 
-    def trigger_push_event(self, data = None):
-        data = data or "Test Notification"
+    def trigger_push_event(self, data = "{}"):
         try:
             webpush(subscription_info=self.__subscription_info(), data=data, vapid_private_key=self.__vapid_private_key(), vapid_claims=self.__vapid_claims())
         except WebPushException as ex:
@@ -23,7 +22,6 @@ class NotificationService:
                 logger.error("Remote service replied with a {code}:{errno}, {message}".format(code=extra.code, errno=extra.errno, message=extra.message))
 
             raise PushEventException(str(ex))
-
 
     def __subscription_info(self):
         return {

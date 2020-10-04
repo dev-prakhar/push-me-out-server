@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.notifier.models import Subscriber
+from apps.notifier.models import Subscriber, NotificationType
 
 
 class SubscriberSerializer(serializers.ModelSerializer):
@@ -11,3 +11,9 @@ class SubscriberSerializer(serializers.ModelSerializer):
             'p256dh': {'write_only': True},
             'auth': {'write_only': True},
         }
+
+
+class NotificationTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NotificationType
+        fields = ('id', 'name', )
