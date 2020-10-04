@@ -1,0 +1,2 @@
+class PushEventException(Exception):
+    pass

@@ -31,11 +31,17 @@ dev:
 restart_api:
 	docker restart pmo_server
 
+restart_worker:
+	docker restart pmo_worker
+
 build_up:
 	docker-compose up -d --build
 
 logs:
 	docker logs -f --tail 1000 pmo_server
+
+worker_logs:
+	docker logs -f --tail 1000 pmo_worker
 
 pip_install:
 	docker exec -it pmo_server pip install -r requirements.txt
