@@ -5,13 +5,13 @@ from push_me_out.celery import app
 
 @app.task(bind=True, retry_kwargs={'max_retries': 5})
 def send_notification(self, state_manager_id):
-    state_manager = NotificationStateManager.objects.filter(pk=state_manager_id).last()
+    state_manager = NotificationStateManager.objects.select_related('notification_type').filter(pk=state_manager_id).last()
     if state_manager is None:
         return
 
     state_manager.mark_started()
     try:
-        info = NotificationHandlerService(state_manager.subscriber_id).handle()
+        info = NotificationHandlerService(state_manager.subscriber_id, state_manager.notification_type).handle()
     except Exception as ex:
         state_manager.mark_failed()
         raise self.retry(exc=ex)

@@ -1,6 +1,8 @@
 from django.contrib import admin
+from django.db import models
+from django_json_widget.widgets import JSONEditorWidget
 
-from apps.notifier.models import Subscriber, NotificationStateManager
+from apps.notifier.models import Subscriber, NotificationStateManager, NotificationType
 
 
 @admin.register(Subscriber)
@@ -12,14 +14,26 @@ class SubscriberAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
 
+
 @admin.register(NotificationStateManager)
 class NotificationStateManagerAdmin(admin.ModelAdmin):
     list_display = ('id', 'subscriber_id', 'state',)
     fields = ('subscriber', 'state', 'info')
-    readonly_fields = ('info', )
+    formfield_overrides = {
+        models.JSONField: {'widget': JSONEditorWidget},
+    }
 
     def get_readonly_fields(self, request, obj=None):
         if obj is not None:
-            return self.readonly_fields + ('subscriber', )
+            return 'subscriber',
 
         return super().get_readonly_fields(request, obj)
+
+
+@admin.register(NotificationType)
+class NotificationTypeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', )
+    fields = ('name', 'options', )
+    formfield_overrides = {
+        models.JSONField: {'widget': JSONEditorWidget},
+    }
