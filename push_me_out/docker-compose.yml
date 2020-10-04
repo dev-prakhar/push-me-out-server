@@ -21,3 +21,18 @@ services:
     depends_on:
       - db
     container_name: pmo_server
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    container_name: pmo_rabbitmq
+  worker:
+    build: .
+    command: sh -c ./start_celery.sh
+    volumes:
+      - .:/code
+    depends_on:
+      - rabbitmq
+      - db
+    container_name: pmo_worker
