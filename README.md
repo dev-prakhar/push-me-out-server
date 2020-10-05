@@ -1,6 +1,8 @@
 # Push Me Out
 Backend Server written in Python-Django for push me out
 
+[Click here](https://github.com/dev-prakhar/push-me-out-client) to go to `push me out` client repo.
+
 # Setup
 
 ### Secrets
